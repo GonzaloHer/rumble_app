@@ -1,0 +1,10 @@
+<h1>Listing Users</h1>
+<table>
+    <!-- @users es una variable de isntancia, se establece en el controlador, y su valor se pasa a la vista para que pueda ser usado en la plantilla -->
+    <%= for user <- @users do %>
+        <tr>
+            <td><%= render "user.html", user: user %> </td>
+            <td><%= link "View", to: Routes.user_path(@conn, :show, user.id) %></td>
+        </tr>
+    <% end %>
+</table>
