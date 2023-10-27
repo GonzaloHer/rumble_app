@@ -16,20 +16,30 @@ defmodule Rumbl.Accounts do
   def get_user!(id) do
     Repo.get!(User, id)
   end
- # si el registro no se encuentra esta funcion arroja una excepcion, osea que si el registro no se encuentra la funcion se bloqueara y tirara la excepcion.
+
+  # si el registro no se encuentra esta funcion arroja una excepcion, osea que si el registro no se encuentra la funcion se bloqueara y tirara la excepcion.
 
   def get_user_by(params) do
     Repo.get_by(User, params)
   end
 
+  # def change_user(%User{} = user) do
+  #   User.changeset(user, %{})
+  # end
 
-  def change_user(%User{} = user) do
-    User.changeset(user, %{})
+  # def create_user(attrs \\ %{}) do
+  #   %User{}
+  #   |> User.changeset(attrs)
+  #   |> Repo.insert()
+  # end
+
+  def change_registration(%User{} = user, params) do
+    User.registration_changeset(user, params)
   end
 
-  def create_user(attrs \\ %{}) do
+  def register_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -38,5 +48,19 @@ defmodule Rumbl.Accounts do
     |> Repo.delete()
   end
 
+  def authenticate_by_username_and_pass(username, given_pass) do
+    user = get_user_by(username: username)
 
+    cond do
+      user && Pbkdf2.verify_pass(given_pass, user.password_hash) ->
+        {:ok, user}
+
+      user ->
+        {:error, :unauthorized}
+
+      true ->
+        Pbkdf2.no_user_verify()
+        {:error, :not_found}
+    end
+  end
 end

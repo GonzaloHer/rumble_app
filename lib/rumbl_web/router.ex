@@ -8,6 +8,7 @@ defmodule RumblWeb.Router do
     plug :put_root_layout, {RumblWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug RumblWeb.Auth
   end
 
   pipeline :api do
@@ -19,6 +20,7 @@ defmodule RumblWeb.Router do
 
     get "/", PageController, :index
     resources "/users", UserController, only: [:index, :show, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
     # resources es un shorthand para un conjunto comun de acciones que define crear, leer, actualizar y eliminar normalmente conocido como CRUD.
     # con only damos explicitamente la lista de rutas que queremos que sean generadas, si no ponemos only nos da todos los get de CRUD.
   end
