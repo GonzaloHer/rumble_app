@@ -25,6 +25,11 @@ defmodule RumblWeb.Router do
     # con only damos explicitamente la lista de rutas que queremos que sean generadas, si no ponemos only nos da todos los get de CRUD.
   end
 
+  scope "/manage", RumblWeb do
+    pipe_through [:browser, :authenticate_user]
+    resources "/videos", VideoController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", RumblWeb do
   #   pipe_through :api
