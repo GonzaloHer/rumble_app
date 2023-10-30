@@ -5,7 +5,7 @@ defmodule Rumbl.Multimedia do
 
   import Ecto.Query, warn: false
   alias Rumbl.Repo
-
+  alias Rumbl.Accounts
   alias Rumbl.Multimedia.Video
 
   @doc """
@@ -21,37 +21,34 @@ defmodule Rumbl.Multimedia do
     Repo.all(Video)
   end
 
-  @doc """
-  Gets a single video.
+  def list_user_videos(%Accounts.User{} = user) do
+    Video
+    |> user_videos_query(user)
+    |> Repo.all()
+  end
 
-  Raises `Ecto.NoResultsError` if the Video does not exist.
+  def get_user_video!(%Accounts.User{} = user, id) do
+    Video
+    |> user_videos_query(user)
+    |> Repo.get!(id)
+  end
 
-  ## Examples
+  defp user_videos_query(query, %Accounts.User{id: user_id}) do
+    from(v in query, where: v.user_id == ^user_id)
+  end
 
-      iex> get_video!(123)
-      %Video{}
+  # la funcion from se usa para buscar registros en la tabla de la base de datos.
 
-      iex> get_video!(456)
-      ** (Ecto.NoResultsError)
 
-  """
   def get_video!(id), do: Repo.get!(Video, id)
 
-  @doc """
-  Creates a video.
 
-  ## Examples
 
-      iex> create_video(%{field: value})
-      {:ok, %Video{}}
-
-      iex> create_video(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_video(attrs \\ %{}) do
+  def create_video(%Accounts.User{} = user, attrs \\ %{}) do
     %Video{}
     |> Video.changeset(attrs)
+    # agrega el user al changeset
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 

@@ -10,6 +10,7 @@ defmodule RumblWeb.Auth do
     user_id = get_session(conn, :user_id)
     user = user_id && Rumbl.Accounts.get_user(user_id)
     assign(conn, :current_user, user)
+    # estoy asignanado un atributo a conn llamada "current_user" para saber cual es el usuario que esta logeado.
   end
 
   @spec login(Plug.Conn.t(), atom() | %{:id => any(), optional(any()) => any()}) :: Plug.Conn.t()
