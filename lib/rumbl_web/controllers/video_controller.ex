@@ -54,15 +54,17 @@ defmodule RumblWeb.VideoController do
   def delete(conn, %{"id" => id}, current_user) do
     video = Multimedia.get_user_video!(current_user, id)
     {:ok, _video} = Multimedia.delete_video(video)
+
     conn
     |> put_flash(:info, "Video deleted successfully.")
     |> redirect(to: Routes.video_path(conn, :index))
-    end
+  end
 
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user]
     apply(__MODULE__, action_name(conn), args)
     # apply permite llamar a una funcion de cierto modulo
+    # esta funcion lo que hace es define que las acciones van a tener que tener esos argumentos que les paso.
   end
 
   def edit(conn, %{"id" => id}, current_user) do
