@@ -7,6 +7,7 @@ defmodule Rumbl.Multimedia.Video do
     field :description, :string
     field :title, :string
     belongs_to :user, Rumbl.Accounts.User
+    belongs_to :category, Rumbl.Multimedia.Category
     # con la linea belongs_to :user, Rumb.Accounts.User hacemos que las tablas video y user se conecten, dice que la columna user_id en la tabla video corresponde a un usuario de la tabla User.
 
     timestamps()
@@ -15,7 +16,7 @@ defmodule Rumbl.Multimedia.Video do
   @doc false
   def changeset(video, attrs) do
     video
-    |> cast(attrs, [:url, :title, :description])
+    |> cast(attrs, [:url, :title, :description, :category_id])
     |> validate_required([:url, :title, :description])
   end
 end
