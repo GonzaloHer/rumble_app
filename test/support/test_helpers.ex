@@ -20,7 +20,7 @@ defmodule Rumbl.TestHelpers do
 
   def video_fixture(%Accounts.User{} = user, attrs \\ %{}) do
     attrs =
-      Enum.intro(attrs, %{
+      Enum.into(attrs, %{
         title: "A Title",
         url: "http://example.com",
         description: "a description"
