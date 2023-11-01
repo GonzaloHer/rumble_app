@@ -16,7 +16,9 @@ defmodule Rumbl.Accounts.User do
     user
     |> cast(attrs, [:name, :username])
     |> validate_required([:name, :username])
-    |> validate_length(:name, min: 1, max: 20)
+    |> validate_length(:name, min: 1, max: 40)
+    |> validate_length(:username, min: 1, max: 20)
+    |> unique_constraint(:username)
   end
 
   # un changeset se utiliza para respresentar y manejar cambios en los datos antes de insertarlos o actualizarlos en una base de datos.

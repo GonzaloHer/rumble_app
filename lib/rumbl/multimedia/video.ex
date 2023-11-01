@@ -18,6 +18,7 @@ defmodule Rumbl.Multimedia.Video do
     video
     |> cast(attrs, [:url, :title, :description, :category_id])
     |> validate_required([:url, :title, :description])
+    |> assoc_constraint(:category) # convierte los errores en mensajes de error que los humanos pueden leer.
   end
 end
 # Este archivo es responsable de identificar los campos que atan la base de datos y el strcut de elixir.
