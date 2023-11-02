@@ -6,11 +6,18 @@ defmodule RumblWeb.Auth do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    # la funcion get_session sale desde el import de Plug.Conn
     user_id = get_session(conn, :user_id)
-    user = user_id && Rumbl.Accounts.get_user(user_id)
-    assign(conn, :current_user, user)
-    # estoy asignanado un atributo a conn llamada "current_user" para saber cual es el usuario que esta logeado.
+
+    cond do
+      conn.assigns[:current_user] ->
+        conn
+
+      user = user_id && Rumbl.Accounts.get_user(user_id) ->
+        assign(conn, :current_user, user)
+
+      true ->
+        assign(conn, :current_user, nil)
+    end
   end
 
   @spec login(Plug.Conn.t(), atom() | %{:id => any(), optional(any()) => any()}) :: Plug.Conn.t()
@@ -43,5 +50,4 @@ defmodule RumblWeb.Auth do
       |> halt()
     end
   end
-
 end

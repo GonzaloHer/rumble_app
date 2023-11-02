@@ -1,5 +1,5 @@
 defmodule Rumbl.MultimediaTest do
-  use Rumbl.DataCase, async: true
+  use Rumbl.DataCase, async: true  # el modulo Rumbl.DataCase se usa en las pruebas que trabajan con la base de datos.
   alias Rumbl.Multimedia
   alias Rumbl.Multimedia.Category
   alias Rumbl.Multimedia.Video
