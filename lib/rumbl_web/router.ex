@@ -21,6 +21,7 @@ defmodule RumblWeb.Router do
     get "/", PageController, :index
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    get "/whatch/:id", WatchController, :show
     # resources es un shorthand para un conjunto comun de acciones que define crear, leer, actualizar y eliminar normalmente conocido como CRUD.
     # con only damos explicitamente la lista de rutas que queremos que sean generadas, si no ponemos only nos da todos los get de CRUD.
   end
@@ -29,6 +30,7 @@ defmodule RumblWeb.Router do
     pipe_through [:browser, :authenticate_user]
     resources "/videos", VideoController
   end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", RumblWeb do

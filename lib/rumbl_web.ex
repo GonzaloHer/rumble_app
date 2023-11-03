@@ -28,6 +28,9 @@ defmodule RumblWeb do
     end
   end
 
+  @spec view() ::
+          {:__block__, [],
+           [{:__block__, [], [...]} | {:import, [...], [...]} | {:use, [...], [...]}, ...]}
   def view do
     quote do
       use Phoenix.View,
