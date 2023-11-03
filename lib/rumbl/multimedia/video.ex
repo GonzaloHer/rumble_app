@@ -9,6 +9,7 @@ defmodule Rumbl.Multimedia.Video do
     field :slug, :string
     belongs_to :user, Rumbl.Accounts.User
     belongs_to :category, Rumbl.Multimedia.Category
+    has_many :annotations, Rumbl.Multimedia.Annotation
     # con la linea belongs_to :user, Rumb.Accounts.User hacemos que las tablas video y user se conecten, dice que la columna user_id en la tabla video corresponde a un usuario de la tabla User.
 
     timestamps()
